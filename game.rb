@@ -20,7 +20,9 @@ class Player < Chingu::GameObject
 			holding_left: :left,
 			holding_right: :right,
 			holding_up: :up,
-			holding_down: :down
+			holding_down: :down,
+			space: :fire,
+			f: :laserbomb	
 		}
 	end
 
@@ -42,10 +44,39 @@ class Player < Chingu::GameObject
 			@y -= 5
 		end
 	end
+	
 	def down
 		unless @y + 24 >= 600
 			@y += 5
 		end
+	end
+
+	def fire
+ 		Laser.create(:x => self.x, :y => self.y)
+  	end
+
+  	def laserbomb
+  		Laserbomb.create(:x => self.x, :y => self.y)
+  	end
+
+end
+
+class Laser < Chingu::GameObject
+	has_traits :velocity
+
+	def setup
+		@image = Gosu::Image["redlaser.png"]
+		self.velocity_y = -10
+	end
+
+end
+
+class Laserbomb < Chingu::GameObject
+	has_traits :velocity
+
+	def setup
+		@image = Gosu::Image["laserbomben.png"]
+		self.velocity_y = -10
 	end
 
 end
